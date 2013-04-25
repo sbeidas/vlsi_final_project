@@ -74,11 +74,11 @@ module skip_adder8(s, co, a, b, ci);
    output 	co;
    input [7:0] 	a, b;
    input 	ci;
-   wire 	c1,c2;
+   wire 	c1,c2,c3;
    adder4	a0(s[3:0],c1, a[3:0],b[3:0], ci);
    skiplogic s0(c2, a[3:0],b[3:0],ci,c1);
-   adder4 	a1(s[7:4],c1, a[7:4],b[7:4], ci);
-   skiplogic s1(co,a[7:4],b[7:4],c2,c1);   
+   adder4 	a1(s[7:4],c3, a[7:4],b[7:4], c2);
+   skiplogic s1(co,a[7:4],b[7:4],c2,c3);   
    
 endmodule // carry-skip-adder8
 
