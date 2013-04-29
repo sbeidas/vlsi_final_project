@@ -98,6 +98,6 @@ module skip_adder32(s, co, a, b, ci);
    skiplogic s7(co,a[31:8],b[31:28],c14,c15); 
    
    
-endmodule // carry-skip-adder8
+endmodule // carry-skip-adder32
 
 
