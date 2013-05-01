@@ -79,35 +79,37 @@ module sklansky_logic8(p_out,g_out,p,g);
   input  [8:0] p,g;
   output [8:0] p_out,g_out;
 
-  wire  w1p,w1g,w2p,w2g,w3p,w3g,w4p,w4g,w5p,w5g,wq;
+  wire  w1p,w1g,w2p,w2g,w3p,w3g,w4p,w4g,w5p,w5g, gout1,gout3;
 
   assign    g_out[0] = g[0];			//pin 0
   assign    p_out[0] = p[0];
 
-  grey_box  gb1(g_out[1],p[1],g[1],g[0]);	//pin 1
+  grey_box  gb1(gout1,p[1],g[1],g[0]);	//pin 1
   assign    p_out[1] = p[1];
+  assign    g_out[1] = gout1;
 
   grey_box  gb2(g_out[2],p[2],g[2],g[1]);	//pin 2
   assign    p_out[2] = p[2];
 
   black_box bb1(w1p,w1g,p[3],g[3],p[2],g[2]);	//pin 3
-  grey_box  gb3(g_out[3],w1p,w1g,g_out[1]);
-  assign    p_out[3] = w1p;
+  grey_box  gb3(gout3,w1p,w1g,gout1);
+  assign    p_out[3] = p[3];
+  assign    g_out[3] = gout3;
 
-  grey_box  gb4(g_out[4],p[4],g[4],g_out[3]);	//pin 4
+  grey_box  gb4(g_out[4],p[4],g[4],gout3);	//pin 4
   assign    p_out[4] = p[4];
   black_box bb2(w2p,w2g,p[5],g[5],p[4],g[4]);	//pin 5
-  grey_box  gb5(g_out[5],w2p,w2g,g_out[3]);
-  assign    p_out[5] = w2p;
+  grey_box  gb5(g_out[5],w2p,w2g,gout3);
+  assign    p_out[5] = p[5];
   black_box bb3(w3p,w3g,p[6],g[6],w2p,w2g);	//pin 6
-  grey_box  gb6(g_out[6],w3p,w3g,g_out[3]);
-  assign    p_out[6] = w3p;
+  grey_box  gb6(g_out[6],w3p,w3g,gout3);
+  assign    p_out[6] = p[6];
   black_box bb4(w4p,w4g,p[7],g[7],p[6],g[6]);	//pin 7
   black_box bb5(w5p,w5g,w4p,w4g,w2p,w2g);
-  grey_box  gb7(g_out[7],w5p,w5g,g_out[3]);
-  assign    p_out[7] = w5p;
+  grey_box  gb7(g_out[7],w5p,w5g,gout3);
+  assign    p_out[7] = p[7];
   
-  grey_box  gb8(g_out[8],p[8],g[8],g[7]);	//pin 8
+ // grey_box  gb8(g_out[8],p[8],g[8],g[7]);	//pin 8
   assign    p_out[8]=p[8];
 
 endmodule //slansky_logic_8bit
