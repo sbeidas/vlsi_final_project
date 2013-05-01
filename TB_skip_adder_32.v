@@ -8,7 +8,7 @@ reg [31:0] a,b;
 wire co;
 wire [31:0] s;
 
-skip_adder8 adder1(s,co,a,b,ci);
+skip_adder32 adder1(s,co,a,b,ci);
    
 initial begin
 	$shm_open("shm.db",1); // Opens a waveform database

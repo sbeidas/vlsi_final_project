@@ -51,7 +51,7 @@ endmodule //mux
 
 // skip logic
 module skiplogic(cout1, a, b, cin,cout0);
-	input [0:3] a,b;
+	input [3:0] a,b;
 	input cin,cout0;
 	output cout1;
 	
@@ -62,7 +62,7 @@ module skiplogic(cout1, a, b, cin,cout0);
 	xor(o4,a[3],b[3]);
 	and(w,o1,o2,o3,o4);
 	
-	mux mux(cin,cout0,w,cout1);
+	mux mux(cout0,cin,w,cout1);
 	
 
 endmodule //skip logic
