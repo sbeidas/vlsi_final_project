@@ -32,8 +32,7 @@ module pg_32block(p_out,g_out,a,b,cin);
   pg_8block pg8_1(g_out[8:1],p_out[8:1],a[7:0],b[7:0]);
   pg_8block pg8_2(g_out[16:9],p_out[16:9],a[15:8],b[15:8]);
   pg_8block pg8_3(g_out[24:17],p_out[24:17],a[23:16],b[23:16]);
-  pg_8block pg8_4(g_out[32:25],p_out[32:25],a[31:25],b[31:25]);
-
+  pg_8block pg8_4(g_out[32:25],p_out[32:25],a[31:24],b[31:24]);
 
 endmodule //pg_32block
 
@@ -71,7 +70,6 @@ module sum_32block(s,cout,p,g);
   sum_8block s8_2(s[15:8],p[16:8],g[16:8]);
   sum_8block s8_3(s[23:16],p[24:16],g[24:16]);
   sum_8block s8_4(s[31:24],p[32:24],g[32:24]);
-
                   //calculate cout
   and(w1,g[31],p[32]);
   or(cout,w1,g[32]);
@@ -106,14 +104,15 @@ input [7:0] p_in,g_in;
 input cool_g;
 output [7:0] p_out,g_out;
 
-grey_box greyb1(p_out[0],g_out[0],p_in[0],g_in[0],cool_g);
-grey_box greyb2(p_out[1],g_out[1],p_in[1],g_in[1],cool_g);
-grey_box greyb3(p_out[0],g_out[2],p_in[2],g_in[2],cool_g);
-grey_box greyb4(p_out[0],g_out[3],p_in[3],g_in[3],cool_g);
-grey_box greyb5(p_out[0],g_out[4],p_in[4],g_in[4],cool_g);
-grey_box greyb6(p_out[0],g_out[5],p_in[5],g_in[5],cool_g);
-grey_box greyb7(p_out[0],g_out[6],p_in[6],g_in[6],cool_g);
-grey_box greyb8(p_out[0],g_out[7],p_in[7],g_in[7],cool_g);
+assign p_out = p_in;
+grey_box greyb1(g_out[0],p_in[0],g_in[0],cool_g);
+grey_box greyb2(g_out[1],p_in[1],g_in[1],cool_g);
+grey_box greyb3(g_out[2],p_in[2],g_in[2],cool_g);
+grey_box greyb4(g_out[3],p_in[3],g_in[3],cool_g);
+grey_box greyb5(g_out[4],p_in[4],g_in[4],cool_g);
+grey_box greyb6(g_out[5],p_in[5],g_in[5],cool_g);
+grey_box greyb7(g_out[6],p_in[6],g_in[6],cool_g);
+grey_box greyb8(g_out[7],p_in[7],g_in[7],cool_g);
 
 endmodule //grey_blocks8
 
@@ -124,12 +123,12 @@ output [7:0] p_out,g_out;
 
 black_box blackb1(p_out[0],g_out[0],p_in[0],g_in[0],cool_p,cool_g);
 black_box blackb2(p_out[1],g_out[1],p_in[1],g_in[1],cool_p,cool_g);
-black_box blackb3(p_out[0],g_out[2],p_in[2],g_in[2],cool_p,cool_g);
-black_box blackb4(p_out[0],g_out[3],p_in[3],g_in[3],cool_p,cool_g);
-black_box blackb5(p_out[0],g_out[4],p_in[4],g_in[4],cool_p,cool_g);
-black_box blackb6(p_out[0],g_out[5],p_in[5],g_in[5],cool_p,cool_g);
-black_box blackb7(p_out[0],g_out[6],p_in[6],g_in[6],cool_p,cool_g);
-black_box blackb8(p_out[0],g_out[7],p_in[7],g_in[7],cool_p,cool_g);
+black_box blackb3(p_out[2],g_out[2],p_in[2],g_in[2],cool_p,cool_g);
+black_box blackb4(p_out[3],g_out[3],p_in[3],g_in[3],cool_p,cool_g);
+black_box blackb5(p_out[4],g_out[4],p_in[4],g_in[4],cool_p,cool_g);
+black_box blackb6(p_out[5],g_out[5],p_in[5],g_in[5],cool_p,cool_g);
+black_box blackb7(p_out[6],g_out[6],p_in[6],g_in[6],cool_p,cool_g);
+black_box blackb8(p_out[7],g_out[7],p_in[7],g_in[7],cool_p,cool_g);
 
 endmodule //black_blocks8
 
@@ -162,6 +161,7 @@ module sklansky_logic8(p_out,g_out,p,g);
   black_box bb3(w3p,w3g,p[6],g[6],w2p,w2g);    //pin 6
   grey_box  gb6(g_out[6],w3p,w3g,gout3);
   assign    p_out[6] = p[6];
+  
   black_box bb4(w4p,w4g,p[7],g[7],p[6],g[6]);    //pin 7
   black_box bb5(w5p,w5g,w4p,w4g,w2p,w2g);
   grey_box  gb7(g_out[7],w5p,w5g,gout3);
@@ -171,8 +171,8 @@ module sklansky_logic8(p_out,g_out,p,g);
 endmodule //slansky_logic_8bit
 
 module sklansky_logic8b(p_out,g_out,p,g);
-  input  [8:0] p,g;
-  output [8:0] p_out,g_out;
+  input  [7:0] p,g;
+  output [7:0] p_out,g_out;
 
   wire  [3:0] p_s1,g_s1,p_s2,g_s2; //key : p_s1 = pout at stage 1
 
@@ -210,23 +210,23 @@ module sklansky_logic32(p_out,g_out,p,g);
   input  [32:0] p,g;
   inout [32:0] p_out,g_out;
 
-  wire [8:0] skl8_p,skl8_g,skl8b_p,skl8b_g,skl8b2_p,skl8b2_g,black8b1_p,black8b1_g,skl8b3_p,skl8b3_g,grey8b2_p,grey8b2_g;
+  wire [7:0] skl8_p,skl8_g,skl8b_p,skl8b_g,skl8b2_p,skl8b2_g,black8b1_p,black8b1_g,skl8b3_p,skl8b3_g,grey8b2_p,grey8b2_g;
 //0-7 bits
   sklansky_logic8 skl8(skl8_p[7:0],skl8_g[7:0],p[7:0],g[7:0]);
   assign p_out[7:0] = skl8_p;
   assign g_out[7:0] = skl8_g;
 //8-15 bits  
   sklansky_logic8b skl8b1(skl8b_p,skl8b_g,p[15:8],g[15:8]);
-  grey_blocks8 grey8b1(p_out[15:8],p_out[15:8],skl8b_p[7:0],skl8b_g[7:0],skl8_g[7]);
-
+  grey_blocks8 grey8b1(p_out[15:8],g_out[15:8],skl8b_p[7:0],skl8b_g[7:0],skl8_g[7]);
 //16-23 bits  
   sklansky_logic8b skl8b2(skl8b2_p,skl8b2_g,p[23:16],g[23:16]);
-  grey_blocks8 grey8b2(p_out[23:16],p_out[23:16],skl8b2_p[7:0],skl8b2_g[7:0],g_out[15]);
-
+  grey_blocks8 grey8b2(p_out[23:16],g_out[23:16],skl8b2_p[7:0],skl8b2_g[7:0],g_out[15]);
+//   assign p_out[23:16] = 
+//   assign g_out[23:16] = 
 //24-31 bits  
   sklansky_logic8b skl8b3(skl8b3_p,skl8b3_g,p[31:24],g[31:24]);
-  black_blocks8 black8b1(black8b1_p,black8b1_g,skl8b3_p[7:0],skl8b3_g[7:0],skl8b2_p[23],skl8b2_g[23]);
-  grey_blocks8 grey8b3(p_out[31:24],g_out[31:24],black8b1_p[7:0],black8b1_g[7:0],g_out[15]); 
+  black_blocks8 black8b1(black8b1_p,black8b1_g,skl8b3_p[7:0],skl8b3_g[7:0],skl8b2_p[7],skl8b2_g[7]); //also passing in the 23 bits p and g
+  grey_blocks8 grey8b3(p_out[31:24],g_out[31:24],black8b1_p,black8b1_g,g_out[15]); 
 //pin 32
   assign    g_out[32]=g[32];            
   assign    p_out[32]=p[32];
